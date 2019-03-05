@@ -1,0 +1,62 @@
+version: "3"
+services:
+  # From docker run -h db2server_ --name db2server --restart=always --detach --privileged=true -p 50000:50000 -p 55000:55000 --env-file db2_env -v db2:/database store/ibmcorp/db2_developer_c:11.1.4.4-x86_64
+  # not mapped: docker run -h --restart=always --detach 
+  db2-c:
+    image: store/ibmcorp/db2_developer_c:11.1.4.4-x86_64
+    container_name: db2server
+    hostname: db2server_
+    privileged: true
+    ports:
+      - "50000:50000"
+      - "55000:55000"
+    volumes:
+      - db2data:/database 
+      - common:/shared
+    env_file:
+      ./phg-vnc-centos6-gnome-cognos/db2-dev-c/db2_env
+    restart: always
+    
+  cognosca11_1:
+    build: ./phg-vnc-centos6-gnome-cognos/cognosca
+ #   depends_on:
+ #     - db2-c
+ #     - cloudera_qs
+    image: phg/centos6-cognosca:11.1
+    container_name: cognos11cnr
+    hostname: cognos11srv
+    ports:
+      - "5900:5900"
+      - "5901:5901"
+      - "3389:3389"
+      - "9300:9300"
+    volumes:
+      - common:/shared
+
+  cloudera_qs:
+    image: cloudera/quickstart:import
+    container_name: cloudera_qs
+    hostname: quickstart.cloudera
+    entrypoint: /bin/bash -c "/usr/bin/docker-quickstart && exec bash"
+#    command: /bin/bash -c
+    stdin_open: true
+    tty: true
+    ports:
+      - "8888:8888"
+      - "80:80"
+      - "7180:7180"
+      # Sqoop and sqoop admin ports
+      - "12000:12000"
+      - "12001:12001"
+      # Oozie, oozie admin and SSL ports:
+      - "11000:11000"
+      - "11001:11001"
+      - "11443:11443"
+    volumes:
+      - common:/shared
+    
+volumes:
+  db2data:
+    external: true
+  common:
+    external: true
