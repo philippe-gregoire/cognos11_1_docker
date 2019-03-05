@@ -11,8 +11,8 @@ services:
       - "50000:50000"
       - "55000:55000"
     volumes:
-      - db2data:/database 
-      - common:/shared
+      - db2cogdata:/database 
+      - shared:/shared
     env_file:
       ./phg-vnc-centos6-gnome-cognos/db2-dev-c/db2_env
     restart: always
@@ -31,7 +31,7 @@ services:
       - "3389:3389"
       - "9300:9300"
     volumes:
-      - common:/shared
+      - shared:/shared
 
   cloudera_qs:
     image: cloudera/quickstart:import
@@ -53,10 +53,10 @@ services:
       - "11001:11001"
       - "11443:11443"
     volumes:
-      - common:/shared
+      - shared:/shared
     
 volumes:
-  db2data:
+  db2cogdata:
     external: true
-  common:
+  shared:
     external: true

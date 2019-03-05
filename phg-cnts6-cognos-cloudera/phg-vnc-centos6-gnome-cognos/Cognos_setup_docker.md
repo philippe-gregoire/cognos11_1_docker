@@ -1,3 +1,8 @@
+# Preparation
+We will use named volumes `shared` and `db2cogdata`, to be created first:
+* `docker volume create shared`
+* `docker volume create db2cogdata`
+
 # DB2 image
 * Get DB2-C image, register from https://hub.docker.com/_/db2-developer-c-edition
   * Then `docker pull store/ibmcorp/db2_developer_c:11.1.4.4-x86_64`
