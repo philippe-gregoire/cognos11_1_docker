@@ -45,6 +45,6 @@ xRDP port is `3389`
     ``` 
   * Create the CM database:
     * `docker exec -ti db2server bash -c "su - db2inst1 -c \"db2 -tf /var/db2_setup/createDb.sql -v\""`
-  * Start the config using `Actions/Start` menu
-
+  * Start the Cognos Services using `Actions/Start` menu
+  * Once started, the cognos Web UI will be available on http://localhost:9300/bi
   * To extract the Cognos config file from the container, use: `docker cp cognos11_1:/opt/ibm/cognos/analytics/configuration/cogstartup.xml .`
