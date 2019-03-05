@@ -175,8 +175,9 @@ COPY /media/$COGNOS_INSTALLER ${COGNOS_MEDIA_DIR}/
 COPY /media/$COGNOS_SERVER_IMAGE ${COGNOS_MEDIA_DIR}/
 COPY /media/$COGNOS_SAMPLES $ENV ${COGNOS_MEDIA_DIR}/
 
-# Copy properties
+# Copy properties and config launcher
 COPY ${COGNOS_PROPERTIES} ${COGNOS_MEDIA_DIR}
+COPY "Cognos Config.desktop" /root/Desktop
 	
 # Setup Cognos user and run installer
 RUN \

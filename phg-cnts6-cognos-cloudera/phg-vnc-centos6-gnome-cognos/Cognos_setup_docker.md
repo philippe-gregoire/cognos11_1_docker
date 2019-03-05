@@ -37,14 +37,17 @@ xRDP port is `3389`
 * Start the interactive configuration tool: `/opt/ibm/cognos/analytics/bin64/cogconfig.sh`
   * Fix the hostnames, replace the hostnames in environment URI entries with `cognos11_1` ![](images_Cognos_setup/20190226_4ba2fa55.png)
   * Setup the content manager: ![](images_Cognos_setup/20190226_afe83d15.png)
-  * From the *Content Store* menu, run *Generate DDL*. You get a file in `/opt/ibm/cognos/analytics/configuration/schemas/content/db2/createDb.sql`
-    * Extract the file and send it to the DB2 Machine:
-    ``` 
-    docker cp cognos11_1:/opt/ibm/cognos/analytics/configuration/schemas/content/db2/createDb.sql .
-    docker cp createDb.sql db2server:/var/db2_setup/createDb.sql
-    ``` 
-  * Create the CM database:
-    * `docker exec -ti db2server bash -c "su - db2inst1 -c \"db2 -tf /var/db2_setup/createDb.sql -v\""`
+    * From the *Content Store* menu, run *Generate DDL*. You get a file in `/opt/ibm/cognos/analytics/configuration/schemas/content/db2/createDb.sql`
+      * Extract the file and send it to the DB2 Machine:
+      ``` 
+      docker cp cognos11_1:/opt/ibm/cognos/analytics/configuration/schemas/content/db2/createDb.sql .
+      docker cp createDb.sql db2server:/var/db2_setup/createDb.sql
+      ``` 
+    * Create the CM database:
+      `docker exec -ti db2server bash -c "su - db2inst1 -c \"db2 -tf /var/db2_setup/createDb.sql -v\""`
+  * **NOTE**: You can also copy the file to the `/shared` common volume and exec the `db2 -tf` on that file, e.g.:
+    * On *cognosca* `cp /opt/ibm/cognos/analytics/configuration/schemas/content/db2/createDb.sql /shared`
+    * Then `docker exec -ti db2server bash -c "su - db2inst1 -c \"db2 -tf /shared/createDb.sql -v\""`
   * Start the Cognos Services using `Actions/Start` menu
   * Once started, the cognos Web UI will be available on http://localhost:9300/bi
   * To extract the Cognos config file from the container, use: `docker cp cognos11_1:/opt/ibm/cognos/analytics/configuration/cogstartup.xml .`

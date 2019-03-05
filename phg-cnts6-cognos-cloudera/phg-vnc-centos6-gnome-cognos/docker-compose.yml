@@ -11,7 +11,8 @@ services:
       - "50000:50000"
       - "55000:55000"
     volumes:
-      - db2data:/database 
+      - db2data:/database
+      - common:/shared
     env_file:
       ./db2-dev-c/db2_env
     restart: always
@@ -28,6 +29,10 @@ services:
       - "5901:5901"
       - "3389:3389"
       - "9300:9300"
-      
+    volumes:
+      - common:/shared      
 volumes:
   db2data:
+    external: true
+  common:
+    external: true

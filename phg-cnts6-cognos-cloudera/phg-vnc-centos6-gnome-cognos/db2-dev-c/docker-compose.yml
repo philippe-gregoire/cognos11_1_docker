@@ -11,9 +11,13 @@ services:
       - "50000:50000"
       - "55000:55000"
     volumes:
-      - db2data:/database 
+      - db2data:/database
+      - common:/shared
     env_file:
       db2_env
       
 volumes:
   db2data:
+    external: true
+  common:
+    external: true
