@@ -1,0 +1,23 @@
+version: "3"
+services:
+  # From docker run -h db2server_ --name db2server --restart=always --detach --privileged=true -p 50000:50000 -p 55000:55000 --env-file db2_env -v db2:/database store/ibmcorp/db2_developer_c:11.1.4.4-x86_64
+  # not mapped: docker run -h --restart=always --detach 
+  db2-dev-c:
+    image: store/ibmcorp/db2_developer_c:11.1.4.4-x86_64
+    container_name: db2server
+    hostname: db2server_
+    privileged: true
+    ports:
+      - "50000:50000"
+      - "55000:55000"
+    volumes:
+      - db2cogdata:/database
+      - shared:/shared
+    env_file:
+      db2_env
+      
+volumes:
+  db2cogdata:
+    external: true
+  shared:
+    external: true
