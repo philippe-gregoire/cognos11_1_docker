@@ -124,6 +124,11 @@ RUN \
 	
 # Run unattended configuration 
 #See https://www.ibm.com/support/knowledgecenter/en/SSEP7J_11.0.0/com.ibm.swg.ba.cognos.inst_cr_winux.doc/t_unatt_cnfg.html#unatt_cnfg
+COPY cogstartup.xml_configured ${COGNOS_DIR}/configuration/
+COPY cogsetup_wait.sh /dockerstartup/
+RUN \
+	sed -i 's/\r//g' /dockerstartup/cogsetup_wait.sh && \
+	chmod uo+x /dockerstartup/*.sh
 		
 # Cognos UI port
 EXPOSE 9300
@@ -135,4 +140,7 @@ COPY Cognos_Config.desktop /headless/Desktop
 USER 1000
 
 # Keep the wait command so that the image stays up
-CMD ["-d --wait"]
+#CMD ["-d --wait"]
+
+# Kick-off unattended Cognos configuration
+CMD ["/dockerstartup/cogsetup_wait.sh"]
