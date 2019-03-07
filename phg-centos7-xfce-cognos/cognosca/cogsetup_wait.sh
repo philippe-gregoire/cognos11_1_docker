@@ -1,7 +1,9 @@
 #!/bin/sh
 set +e
 
-env
+uptime
+echo "Waiting 4 minutes to get DB2 time to startup"
+sleep 4m
 
 echo "Renaming cogstartup.xml* files in ${COGNOS_DIR}"
 mv ${COGNOS_DIR}/configuration/cogstartup.xml ${COGNOS_DIR}/configuration/cogstartup.xml_backup
@@ -14,6 +16,4 @@ cd ${COGNOS_DIR}/bin64
 tail -f ${COGNOS_DIR}/logs/cogconfig_response.csv
 
 ps -ef
-
-ps
 
