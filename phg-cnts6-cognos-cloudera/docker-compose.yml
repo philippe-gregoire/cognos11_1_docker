@@ -1,9 +1,22 @@
+################################################################################
+# Example of docker-compose to setup Cognos 11.1 with DB2-Developer-C
+#
+# WARNING: The resulting docker image is not suitable for any production 
+#          use and should be used for demonstration purposes only
+#
+# Copyright 2019, IBM Corporation
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 version: "3"
 services:
-  # From docker run -h db2server_ --name db2server --restart=always --detach --privileged=true -p 50000:50000 -p 55000:55000 --env-file db2_env -v db2:/database store/ibmcorp/db2_developer_c:11.1.4.4-x86_64
-  # not mapped: docker run -h --restart=always --detach 
   db2-c:
-    image: store/ibmcorp/db2_developer_c:11.1.4.4-x86_64
+    build: ./phg-centos7-xfce-cognos/db2-dev-c
+    image: store/ibmcorp/db2_developer_c:11.1.4.4-x86_64_CM
     container_name: db2server
     hostname: db2server_
     privileged: true
@@ -14,21 +27,20 @@ services:
       - db2cogdata:/database 
       - shared:/shared
     env_file:
-      ./phg-vnc-centos6-gnome-cognos/db2-dev-c/db2_env
+      ./phg-centos7-xfce-cognos/db2-dev-c/db2_env
     restart: always
     
   cognosca11_1:
-    build: ./phg-vnc-centos6-gnome-cognos/cognosca
+    build: ./phg-centos7-xfce-cognos/cognosca
  #   depends_on:
  #     - db2-c
  #     - cloudera_qs
-    image: phg/centos6-cognosca:11.1
+    image: phg/centos7-cognosca:11.1
     container_name: cognos11cnr
     hostname: cognos11srv
     ports:
-      - "5900:5900"
       - "5901:5901"
-      - "3389:3389"
+      - "6901:6901"
       - "9300:9300"
     volumes:
       - shared:/shared
