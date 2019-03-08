@@ -42,7 +42,9 @@ services:
       - "6901:6901"
       - "9300:9300"
     environment:
+      # Define the following environemnt variables to control Cognos startup
       - COGNOS_WAIT_DB2_MINS
+      - COGNOS_MAX_RETRIES
     volumes:
       - shared:/shared      
 volumes:
