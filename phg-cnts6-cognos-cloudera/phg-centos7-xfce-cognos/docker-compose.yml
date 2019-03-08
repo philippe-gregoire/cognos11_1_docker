@@ -41,6 +41,8 @@ services:
       - "5901:5901"
       - "6901:6901"
       - "9300:9300"
+    environment:
+      - COGNOS_WAIT_DB2_MINS
     volumes:
       - shared:/shared      
 volumes:

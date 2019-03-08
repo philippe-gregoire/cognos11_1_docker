@@ -150,6 +150,14 @@ EXPOSE 9300
 # Copy desktop shortcuts
 COPY Cognos_Config.desktop /headless/Desktop
 
+# Copy Cloudera Impala JDBC drivers
+# To get the drivers, refer to https://www.cloudera.com/downloads/connectors/impala/jdbc/2-6-4.html
+# Note: If you are not going to use Cloudera Impala drivers, comment out the next line
+COPY /media/ImpalaJDBC41.jar ${COGNOS_DIR}/drivers/
+
+# How long to wait for DB2 to come up, default (in minutes)
+ENV COGNOS_WAIT_DB2_MINS_DEF	4
+
 # Switch back to regular user
 USER 1000
 
