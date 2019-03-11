@@ -1,11 +1,18 @@
 # Set up of Cognos Analytics 11.1 with DB2-C and Cloudera quickstart on Docker Compose
 
-Prereq: have docker locally installed
+## Introduction
+This Docker image build on top of the Cognos 11.1/Centos 7 with DB2-developer-C image, and adds Cloudera QuickStart to it.
+
+<a name="prereqs"></a>__Prerequisites__:
+ - Docker (with docker-compose) installed locally
+ - See the Cognos 11.1 specific prereqs in [phg-centos7-xfce-cognos\Cognos_setup_docker.md](phg-centos7-xfce-cognos\Cognos_setup_docker.md#prereqs)
+ - Access to Docker Hub (to gain access to db2-developer-c image)
+ - Access to IBM Passport Advantage to 
 
 The `docker-compose.yml` file in this directory sets up the Cloudera QuickStart docker image in the same docker-compose set as Cognos Analytics 11.1
 
 ## Setting up Cognos 11.1 docker-compose environment
-See [phg-vnc-centos6-gnome-cognos\Cognos_setup_docker.md](phg-vnc-centos6-gnome-cognos\Cognos_setup_docker.md) for instructions to get Cognos 11.1 setup with DB2-C on docker.
+See [phg-centos7-xfce-cognos\Cognos_setup_docker.md](phg-centos7-xfce-cognos\Cognos_setup_docker.md) for instructions to get Cognos 11.1 setup with DB2-C on docker.
 
 ## Setting up Cloudera quickstart docker
  * Download from Cloudera their quickstart docker image, see https://www.cloudera.com/downloads/quickstart_vms/5-13.html
