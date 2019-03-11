@@ -50,38 +50,25 @@ ARG COGNOS_SERVER_IMAGE=ca_server_linuxi38664_11.1.1.zip
 ARG COGNOS_SAMPLES=ca_smpl_lnxi38664_11.0.0.15121603.bin
 
 # Cognos Prepreq (See https://www.ibm.com/support/knowledgecenter/en/SS5R93_5.3.0/com.ibm.spectrum.sc.doc/ins_cognos_analytics_Linux_single.html)
-#glibc-2.12-1.166.el6 or later (both i686 and x86_64 packages)
-#libstdc++-4.4.7-16.el6 or later (both i686 and x86_64 packages)
-#nspr-4.9.2-1.el6 or later (both i686 and x86_64 packages)
-#nss-3.14.0.0-12.el6 or later (both i686 and x86_64 packages)
-#openmotif-2.3.3-5.el6 or later (both i686 and x86_64 packages)
+# - glibc-2.12-1.166.el6 or later (both i686 and x86_64 packages)
+# - libstdc++-4.4.7-16.el6 or later (both i686 and x86_64 packages)
+# - nspr-4.9.2-1.el6 or later (both i686 and x86_64 packages)
+# - nss-3.14.0.0-12.el6 or later (both i686 and x86_64 packages)
+# - openmotif-2.3.3-5.el6 or later (both i686 and x86_64 packages)
+#
+# We also add useful utilities 
 RUN yum install -y \
-		glibc.x86_64 glibc.i686 \
-		libstdc++.x86_64 libstdc++.i686 \
-		nspr.x86_64 nspr.i686 \
-		nss.x86_64 nss.i686 \
-		openmotif.x86_64 openmotif.i686 \
-	&& yum clean all && rm -rf /tmp/*
-
-#
-# Install other dependencies
-#
-# "which is required for Cognos installation
-# "glibc.i686" is required for Cognos installation
-# "tigervnc-server xorg-x11-twm xorg-x11-server-utils xterm" are required for cogconfig.sh in XTerminal mode
-# "nc" is required by cognos-setup.sh
-#
-RUN echo "Installing X11" && \
-	yum install -y \
 	which \
 	unzip \
 	sudo \
 	nano \
 	rsync \
-#	gedit \
-#	libX11 libX11.i686 \
-#	tigervnc-server \
-#	xorg-x11-twm xorg-x11-server-utils xterm \
+	glibc.x86_64 glibc.i686 \
+	libstdc++.x86_64 libstdc++.i686 \
+	nspr.x86_64 nspr.i686 \
+	nss.x86_64 nss.i686 \
+	openmotif.x86_64 openmotif.i686 \
+	gedit \
 	&& yum clean all && rm -rf /tmp/*
 	
 # For the record, re: https://www.ibm.com/support/knowledgecenter/SSEP7J_11.0.0/com.ibm.swg.ba.cognos.inst_cr_winux.doc/c_inst_ulimitsettingsonunixandlinuxoperatingsystems.html
@@ -90,7 +77,7 @@ RUN \
 	echo "Current hostname: `hostname`" && \
 	echo "VNC password is ${VNC_PW}"
 	
-# Setup Cognos user as user 1001 and run installer
+# Setup Cognos user as user 1000 and run installer
 RUN \
 	echo "%wheel ALL=(ALL) ALL" > /etc/sudoers.d/wheel && \
     chmod 0440 /etc/sudoers.d/wheel && \
@@ -131,10 +118,12 @@ COPY /media/db2jcc_license_cu.jar ${COGNOS_DIR}/drivers/
 RUN chmod +x ${COGNOS_DIR}/drivers/db2jcc*.jar
 
 # Set JAVA_HOME
-RUN \
-	echo export JAVA_HOME=${COGNOS_DIR}/jre >> /home/${COGNOS_USER}/.bashrc && \
-	echo export JAVA_HOME=${COGNOS_DIR}/jre >> /headless/.bashrc && \
-	echo export JAVA_HOME=${COGNOS_DIR}/jre >> /root/.bashrc
+ENV JAVA_HOME ${COGNOS_DIR}/jre
+
+#RUN \
+#	echo export JAVA_HOME=${COGNOS_DIR}/jre >> /home/${COGNOS_USER}/.bashrc && \
+#	echo export JAVA_HOME=${COGNOS_DIR}/jre >> /headless/.bashrc && \
+#	echo export JAVA_HOME=${COGNOS_DIR}/jre >> /root/.bashrc
 	
 # Run unattended configuration 
 #See https://www.ibm.com/support/knowledgecenter/en/SSEP7J_11.0.0/com.ibm.swg.ba.cognos.inst_cr_winux.doc/t_unatt_cnfg.html#unatt_cnfg
@@ -161,7 +150,7 @@ ENV COGNOS_WAIT_DB2_MINS_DEF	4
 # Switch back to regular user
 USER 1000
 
-# Keep the wait command so that the image stays up
+# The below command is used to keep the base xfce up and running, replaced by our startup
 #CMD ["-d --wait"]
 
 # Kick-off unattended Cognos configuration
