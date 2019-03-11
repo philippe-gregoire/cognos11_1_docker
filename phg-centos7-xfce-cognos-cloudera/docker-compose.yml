@@ -32,7 +32,7 @@ services:
     
   cognosca11_1:
     build: ./phg-centos7-xfce-cognos/cognosca
- #   depends_on:
+#    depends_on:
  #     - db2-c
  #     - cloudera_qs
     image: phg/centos7-cognosca:11.1
@@ -42,8 +42,12 @@ services:
       - "5901:5901"
       - "6901:6901"
       - "9300:9300"
+    environment:
+      # Define the following environemnt variables to control Cognos startup
+      - COGNOS_WAIT_DB2_MINS
+      - COGNOS_MAX_RETRIES
     volumes:
-      - shared:/shared
+      - shared:/shared      
 
   cloudera_qs:
     image: cloudera/quickstart:import
@@ -51,7 +55,7 @@ services:
     hostname: quickstart.cloudera
     entrypoint: /bin/bash -c "/usr/bin/docker-quickstart && exec bash"
 #    command: /bin/bash -c
-    stdin_open: true
+#    stdin_open: true
     tty: true
     ports:
       - "8888:8888"
@@ -64,6 +68,12 @@ services:
       - "11000:11000"
       - "11001:11001"
       - "11443:11443"
+      # Impala
+      - "21000:21000"
+      - "21050:21050"
+      - "25000:25000"
+      - "25010:25010"
+      - "25020:25020"
     volumes:
       - shared:/shared
     
