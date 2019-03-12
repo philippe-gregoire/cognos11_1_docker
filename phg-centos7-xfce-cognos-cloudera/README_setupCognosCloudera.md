@@ -18,7 +18,7 @@ This Docker image build on top of the Cognos 11.1/Centos 7 with DB2-developer-C 
 <a name="prereqs"></a>__Prerequisites__:
  - Docker (with docker-compose) installed locally
    - Tested with 4 CPUs and 15GB RAM which seem to be the minimum configuration
- - See the Cognos 11.1 specific prereqs in [phg-centos7-xfce-cognos\README_Cognos_setup_docker.md](phg-centos7-xfce-cognos\README_Cognos_setup_docker.md#prereqs)
+ - See the Cognos 11.1 specific prereqs in [phg-centos7-xfce-cognos/README_Cognos_setup_docker.md](phg-centos7-xfce-cognos/README_Cognos_setup_docker.md#prereqs)
  - Access to the Cloudera Quickstart docker image
 
 The `docker-compose.yml` file in this directory sets up the Cloudera QuickStart docker image in the same docker-compose set as Cognos Analytics 11.1
@@ -32,10 +32,16 @@ After playing a bit with the fully setup and configured images, I used `docker i
 |_Cognos Analytics 11.1_|12.2 GB|7.4 GB|
 |_Cloudera QuickStart 5.13.0_|7 GB|5.4 GB|
 
-Of course, your mileage may vary
+Of course, your mileage may vary...
 
+__Startup time__ :
+After starting up, the containers still require some additional setup which is not taken care of by the build phase.
+This is in part due to the fact that at build time, neither external persistent volumes nor final hostnames are available, which would make some of the configuration steps useless.
+
+This affects particularly the Cloudera Quickstart image which needs quite some time to startup and load the sample data from sqoop to non-persistent storage.
+In order to save this post-config state, a new version of the image can be cut from the running container using e.g. `docker commit cloudera_qs cloudera/quickstart:setup`. This image tag would then be used in the `docker-compose.yaml` file instead of `cloudera/quickstart:imported`
 ## Setting up Cognos 11.1 docker-compose environment
-See [phg-centos7-xfce-cognos\Cognos_setup_docker.md](phg-centos7-xfce-cognos/README_Cognos_setup_docker.md) for instructions to get Cognos 11.1 setup with DB2-C on docker.
+See [phg-centos7-xfce-cognos/Cognos_setup_docker.md](phg-centos7-xfce-cognos/README_Cognos_setup_docker.md) for instructions to get Cognos 11.1 setup with DB2-C on docker.
 
 ## Setting up Cloudera quickstart docker
  * Download from Cloudera their quickstart docker image, see https://www.cloudera.com/downloads/quickstart_vms/5-13.html

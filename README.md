@@ -21,5 +21,5 @@ The software licenses and binaries used to build those images can be obtained fr
 ## Project structure
 The containers are driven by `docker-compose` configuration files.
 There are currently two setups, refer to the setup instructions in each subfolder:
-1. **Cognos Analytics 11.1** with **DB2-Developer-C** in [phg-centos7-xfce-cognos-cloudera\phg-centos7-xfce-cognos](phg-centos7-xfce-cognos-cloudera\phg-centos7-xfce-cognos\README_Cognos_setup_docker.md)
-2. **Cognos Analytics 11.1** with **DB2-Developer-C** and **Cloudera Quickstart 5.13** in [phg-centos7-xfce-cognos-cloudera](phg-centos7-xfce-cognos-cloudera\README_setupCognosCloudera.md)
+1. **Cognos Analytics 11.1** with **DB2-Developer-C** in [phg-centos7-xfce-cognos-cloudera/phg-centos7-xfce-cognos](phg-centos7-xfce-cognos-cloudera/phg-centos7-xfce-cognos/README_Cognos_setup_docker.md)
+2. **Cognos Analytics 11.1** with **DB2-Developer-C** and **Cloudera Quickstart 5.13** in [phg-centos7-xfce-cognos-cloudera](phg-centos7-xfce-cognos-cloudera/README_setupCognosCloudera.md)
