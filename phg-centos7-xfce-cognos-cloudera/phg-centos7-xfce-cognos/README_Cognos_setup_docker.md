@@ -1,11 +1,11 @@
 # Cognos Analytics 11.1 with DB2-Developer-C container image
 ---
-##Example of Dockerfile to setup Cognos Analytics 11.1 in a container
+## Example of Dockerfile to setup Cognos Analytics 11.1 in a container
 __WARNING__: The resulting docker image is not suitable for any production use and should be used for demonstration purposes only
 
-##Copyright 2019, IBM Corporation
+## Copyright 2019, IBM Corporation
 
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.   
 See the License for the specific language governing permissions and limitations under the License.
 
 Written by Philippe Gregoire - IBM Ecosystem Advocacy Group Europe (philippe.gregoire@fr.ibm.com)
@@ -13,9 +13,8 @@ Written by Philippe Gregoire - IBM Ecosystem Advocacy Group Europe (philippe.gre
 ---
 
 ## Overview
-The files in this directory pertain to the setup of **Cognos 11.1** with **DB2-Developer-C** in a docker-compose environment.
-The setup operates with two containers driven by docker-compose.
-The setup uses Centos7 base linux OS image for both containers.
+The files in this directory pertain to the setup of **Cognos 11.1** with **DB2-Developer-C** in a docker-compose environment.   
+The setup operates with two containers driven by _docker-compose_ and uses Centos7 base linux OS image for both.
 
 The persistent state of the Content Manager stored in DB2-Dev-C is stored in a persistent volume.
 
@@ -24,7 +23,7 @@ This setup has been tested on ___Docker Community for Windows v18.09.2___
 ---
 
 ## **NOTE**
-This docker setup is ***NOT*** an officially endorsed way to run Cognos Analytics in any production-grade setup.
+This docker setup is ***NOT*** an officially endorsed way to run Cognos Analytics in any production-grade setup.   
 It has been designed to facilitate setting up a Cognos 11.1 demonstration environment relying only on publicly available prerequisite software and IBM licensed products obtained from Passport Advantage.
 
 ---
