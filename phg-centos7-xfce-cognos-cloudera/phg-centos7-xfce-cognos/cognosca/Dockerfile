@@ -1,8 +1,11 @@
 ################################################################################
 # Example of Dockerfile to setup Cognos 11.1 in a Docker container
 #
-# WARNING: The resulting docker image is not suitable for any production 
+# WARNING: The resulting container image is not suitable for any production 
 #          use and should be used for demonstration purposes only
+#
+# Written by    Philippe Gregoire (philippe.gregoire@fr.ibm.com)
+#               IBM Ecosystem Advocacy Group Europe 
 #
 # Copyright 2019, IBM Corporation
 #

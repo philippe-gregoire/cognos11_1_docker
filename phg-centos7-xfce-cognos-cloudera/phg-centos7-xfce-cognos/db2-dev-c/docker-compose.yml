@@ -1,3 +1,20 @@
+################################################################################
+# Example of Docker-compose to setup DB2 Dev C to be used as the Cognos CM database
+#
+# WARNING: The resulting container image is not suitable for any production 
+#          use and should be used for demonstration purposes only
+#
+# Written by    Philippe Gregoire (philippe.gregoire@fr.ibm.com)
+#               IBM Ecosystem Advocacy Group Europe 
+#
+# Copyright 2019, IBM Corporation
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 version: "3"
 services:
   # From docker run -h db2server_ --name db2server --restart=always --detach --privileged=true -p 50000:50000 -p 55000:55000 --env-file db2_env -v db2:/database store/ibmcorp/db2_developer_c:11.1.4.4-x86_64

@@ -1,8 +1,11 @@
 ################################################################################
-# Example of Dockerfile to setup DB2 Dev C with the Cognos CM database
+# Example of Dockerfile to setup DB2 Dev C to be used as the Cognos CM database
 #
-# WARNING: The resulting docker image is not suitable for any production 
+# WARNING: The resulting container image is not suitable for any production 
 #          use and should be used for demonstration purposes only
+#
+# Written by    Philippe Gregoire (philippe.gregoire@fr.ibm.com)
+#               IBM Ecosystem Advocacy Group Europe 
 #
 # Copyright 2019, IBM Corporation
 #

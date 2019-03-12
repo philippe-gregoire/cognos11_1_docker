@@ -8,6 +8,8 @@ __WARNING__: The resulting docker image is not suitable for any production use a
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and limitations under the License.
 
+Written by Philippe Gregoire - IBM Ecosystem Advocacy Group Europe (philippe.gregoire@fr.ibm.com)
+
 ---
 
 ## Overview
@@ -20,6 +22,16 @@ This Docker image build on top of the Cognos 11.1/Centos 7 with DB2-developer-C 
  - Access to the Cloudera Quickstart docker image
 
 The `docker-compose.yml` file in this directory sets up the Cloudera QuickStart docker image in the same docker-compose set as Cognos Analytics 11.1
+
+__Capacity Planning & Resource Consumption__ :
+After playing a bit with the fully setup and configured images, I used `docker images` and *Portainer* to get an idea of resource consumption and got the following:
+|Component|Image size|Runtime RAM|
+|---|--:|---:|
+|_DB2-Developer-C 11.1.4.4_|2.62 GB|883 MB|
+|_Cognos Analytics 11.1_|12.2 GB|7.4 GB|
+|_Cloudera QuickStart 5.13.0_|7 GB|5.4 GB|
+
+Of course, your mileage may vary
 
 ## Setting up Cognos 11.1 docker-compose environment
 See [phg-centos7-xfce-cognos\Cognos_setup_docker.md](phg-centos7-xfce-cognos\README_Cognos_setup_docker.md) for instructions to get Cognos 11.1 setup with DB2-C on docker.
