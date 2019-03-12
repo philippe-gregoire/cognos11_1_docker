@@ -77,6 +77,7 @@ The VNC server exposes the xfce desktop on ports `5901` (pw:vncpassword) and `69
   * IBM Cognos Analytics Installer 2.0 Linux x86 Multilingual (__CNV5CML__)
   * IBM Cognos Analytics Server 11.1.1 Linux x86 Multilingual (__CNV5BML__) or (__CNZ14ML__)
 * Ensure that `cognosca\media` also has the 3 `db2jcc*` files from DB2-C installation above, and optionally the Cloudera Impala JDBC driver file (if not, comment out the line in the `Dockerfile`)
+* Get the Cloudera Impala JDBC drivers from https://www.cloudera.com/downloads/connectors/impala/jdbc/2-6-4.html and copy the JDBC 41 driver jar file to `cognosca\media`
 * To just build the image using docker-compose run `docker-compose build cognosca`
 
 # Start the two containers using docker-compose and the provided docker-compose.

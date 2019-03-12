@@ -15,6 +15,7 @@ This Docker image build on top of the Cognos 11.1/Centos 7 with DB2-developer-C 
 
 <a name="prereqs"></a>__Prerequisites__:
  - Docker (with docker-compose) installed locally
+   - Tested with 4 CPUs and 15GB RAM which seem to be the minimum configuration
  - See the Cognos 11.1 specific prereqs in [phg-centos7-xfce-cognos\README_Cognos_setup_docker.md](phg-centos7-xfce-cognos\README_Cognos_setup_docker.md#prereqs)
  - Access to the Cloudera Quickstart docker image
 
@@ -62,4 +63,61 @@ To start all 3 containers in one go:
   cloudera_qs     | Started Impala Server (impalad):[  OK  ]
   ```
 
-### Post-config steps
+## Post-installation configuration steps
+After starting the docker-compose assembly, some manual configuration steps are still required
+
+### Optional: cataloging the DB2 SAMPLE database in Cognos:
+Login to Cognos Analytics web UI (http://localhost:9300) and setup a connection for the *SAMPLE* database:
+* Setup DB connection for `jdbc:db2://db2server:50000/SAMPLE`:
+![](images_README/20190311_db48b3ff.png)
+* Setup userid `db2inst1` and password _passw0rd_ 
+![](images_README/20190311_5860f460.png)
+* Test connection:
+![](images_README/20190311_907a1c3e.png)
+* Import schemas:
+![](images_README/20190311_94696aea.png)
+* You should get 47 tables:
+![](images_README/20190311_b36b90a9.png)
+
+### Populating Cloudera Impala database
+The Cloudera quickstart image comes with a sample dataset. This dataset is originally stored in a MySQL database which is then loaded through **sqoop** into **HDFS** in *parquet* format.
+
+The instructions for setting up this sample dataset are part of the Cloudera quickstart image tutorial (http://localhost/#/tutorial), we will just outline the key steps here:
+
+* Load data into Cloudera HDFS
+Use the **sqoop** command from the quickstart tutorial (see `http://localhost/#/tutorial/ingest_structured_data`):
+  ```
+  sqoop import-all-tables \
+  -m 1 \
+  --connect jdbc:mysql://quickstart:3306/retail_db \
+  --username=retail_dba \
+  --password=cloudera \
+  --compression-codec=snappy \
+  --as-parquetfile \
+  --warehouse-dir=/user/hive/warehouse \
+  --hive-import
+  ```
+This operation takes about 8-10 minutes. To verify the loading, from a bash session `docker exec -ti cloudera_qs bash`, you can run `hadoop fs -ls /user/hive/warehouse` 
+* Update Impala metadata cache
+Once the tables are loaded, follow the Tutorial Exercise 1 to update Impala metadata, e.g. log into hue at http://localhost:8888/hue, switch to the **Impala** tab and execute `invalidate metadata; show tables;`
+
+### Connecting to Cloudera through Impala
+Now that Cloudera HDFS is populated with sample data and reflected in Impala metadata, we can proceed to connecting Cognos Analytics to that datasource through the Impala connector.
+Note that the Cloudera JDBC 4.1 drivers must have been copied to the Cognos `drivers` folder.
+
+References:
+- https://www.cloudera.com/documentation/enterprise/5-14-x/topics/impala_ports.html
+- [Create a non-kerberos JDBC Cloudera Impala datasource connection in Cognos Analytics](http://www-01.ibm.com/support/docview.wss?uid=swg22013856)
+
+Creating a Cloudera Impala connection in Cognos Analytics:
+From the Cognos Analytics web ui (http://localhost:9300), use *Manage/Data server connections* to create a new connection **(+)** of type *Cloudera Impala*: ![](images_README/20190311_641b5994.png)
+* Setup the connection details to:
+  * JDBC URL: `jdbc:impala://cloudera_qs:21050/default`
+  * Driver class name: `com.cloudera.impala.jdbc41.Driver`
+  * Use signon userid **cloudera** and pw *cloudera*
+  ![](images_README/20190311_14524e1e.png)
+* Test the connection: ![](images_README/20190311_83de7508.png)
+* Expand the *Schemas* tab, select **Impala/default** menu's *Load metadata* ![](images_README/20190312_822dce25.png)
+* You should get the *6/6 tables loaded* message, visible in *Load options* menu then *Tables* tab: ![](images_README/20190312_a1d449a6.png)
+
+The data surfaced through this connection can then be used in *Data Modules* to built Dashboards and Reports: ![](images_README/20190312_e296f97c.png)
